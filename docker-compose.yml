@@ -1,0 +1,32 @@
+version: '2'
+
+services:
+
+  # application
+  app:
+    build: .
+    image: php:laravel
+    container_name: 'laravel-app'
+    volumes:
+      - ./:/app
+  
+  # web server
+  web:
+    image: nginx:latest
+    container_name: 'laravel-server'
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/app
+      - ./site.conf:/etc/nginx/conf.d/default.conf
+
+  # database
+  mysql:
+    image: mysql:5.7
+    container_name: 'laravel-db'
+    ports:
+      - "33061:3306"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=r0otP4sS"
+      - "MYSQL_DATABASE=homestead"
+      - "MYSQL_USER=homestead"
