@@ -9,7 +9,11 @@ class TasksController extends Controller
 {
     public function index()
     {
-    	$tasks = Task::all();
+    	if(count(request()->all()) == 0) {
+	    	$tasks = Task::all();
+    	} else {
+    		$tasks = Task::where('completed', request(['completed']))->get();
+    	}
     	return view('tasks.index', compact('tasks'));
     }
 
