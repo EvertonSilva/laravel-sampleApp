@@ -20,9 +20,11 @@ class TasksController extends Controller
 
     public function store()
     {
-    	$task = new Task;
-    	$task->title = request('title');
-    	$task->save();
+    	$this->validate(request(), [
+    		'title' => 'required'
+    	]);
+
+    	Task::create(request(['title']));
 
     	return redirect('/tasks');
     }
